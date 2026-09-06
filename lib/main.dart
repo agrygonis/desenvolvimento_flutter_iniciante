@@ -32,12 +32,14 @@ class MyApp extends StatelessWidget {
 // fields aren't final".
 // Isso é o Flutter te avisando exatamente o que aprendemos: StatelessWidgets
 // não deveriam ter variáveis que mudam de valor! (Deixamos assim de propósito para o teste).
-class MeuStatelessWidget extends StatelessWidget {
-  MeuStatelessWidget({
-    super.key,
-  }); // Removemos o const para poder ter variáveis mutáveis
+class MeuStatelessWidget extends StatefulWidget {
+  const MeuStatelessWidget({super.key});
+  @override
+  State<MeuStatelessWidget> createState() => _MeuStatelessWidgetState();
+}
 
-  int count = 0; //nossa variavel mutável no lugar errado (ela deveria ser final, mas não é)
+class _MeuStatelessWidgetState extends State<MeuStatelessWidget> {
+  int count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +58,42 @@ class MeuStatelessWidget extends StatelessWidget {
         const SizedBox(height: 16), // O nosso "espaçador"
         ElevatedButton(
           onPressed: () {
-            count++; //incrementa a variável
-            print('Valor na memória: $count'); //imprime no console
+            setState(() {
+              count++; //incrementa a variável
+            });
           },
           child: const Text('Clique aqui'),
         ),
+        const SizedBox(height: 16), // O nosso "espaçador"
+        BotaoDeBaixo(
+          acao: () {
+            setState(() {
+              count++; //incrementa a variável em 10
+            });
+          },
+        ),
       ],
+    );
+  }
+}
+
+class BotaoDeBaixo extends StatefulWidget {
+  final VoidCallback acao; // O Callback! Uma função vazia passada por paramétro
+  const BotaoDeBaixo({super.key, required this.acao});
+
+  @override
+  State<BotaoDeBaixo> createState() => _BotaoDeBaixoState();
+}
+
+//Classe de estado do botão inferior
+class _BotaoDeBaixoState extends State<BotaoDeBaixo> {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        widget.acao(); // Aqui chamamos a função que foi passada por parâmetro
+      },
+      child: const Text('Clicou no botão de baixo'),
     );
   }
 }
