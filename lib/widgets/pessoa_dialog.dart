@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/pessoa.dart';
 import '../extensions/format_extensions.dart';
+import 'default_dialog_container.dart';
 
 class PessoaDialog extends StatelessWidget {
   final Pessoa pessoa;
@@ -18,14 +19,13 @@ class PessoaDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('ID: ${pessoa.id}'),
-            const SizedBox(height: 8), // Espaçamento vertical
-            Text('Nome: ${pessoa.nome}'),
-            const SizedBox(height: 8), // Espaçamento vertical
+            DefaultDialogContainer(child: Text('ID: ${pessoa.id}')),
+            DefaultDialogContainer(child: Text('Nome: ${pessoa.nome}')),
             // Olhe aqui nossas extensions em ação aqui!
-            Text('Peso: ${pessoa.peso.paraPeso} kg'),
-            const SizedBox(height: 8), // Espaçamento vertical
-            Text('Altura: ${pessoa.altura} cm'),
+            DefaultDialogContainer(
+              child: Text('Peso: ${pessoa.peso.paraPeso} kg'),
+            ),
+            DefaultDialogContainer(child: Text('Altura: ${pessoa.altura} cm')),
           ],
         ),
       ),

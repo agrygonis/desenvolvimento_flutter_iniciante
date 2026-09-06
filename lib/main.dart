@@ -17,8 +17,15 @@ class MyApp extends StatelessWidget {
       title: 'Lista de Pessoas',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3:
-            false, // Desativar o Material 3 para manter o estilo antigo
+        useMaterial3: false,
+        // Configutando a tipografia global do app:
+        textTheme: const TextTheme(
+          titleMedium: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       home: Scaffold(
         appBar: AppBar(title: const Text('Lista Customizada')),
