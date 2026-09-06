@@ -1,19 +1,20 @@
-import 'dart:math';
-
 import 'package:faker/faker.dart';
 
 import '../models/pessoa.dart';
 
-//Funcão que retorna uma lista de pessoas geradas aleatoriamente
+// Retorna uma lista contendo a quantidade solicitada de Pessoa
 List<Pessoa> gerarPessoas(int quantidade) {
   final faker = Faker();
-  final random = Random();
 
+  // o List.generatior cria um loop automático que roda "quantidade" de vezes
   return List.generate(quantidade, (index) {
     return Pessoa(
       id: index,
       nome: faker.person.name(),
-      altura: random.nextInt(51) + 150, // Altura entre 150 e 200 cm
+      altura: faker.randomGenerator.integer(
+        200,
+        min: 150,
+      ), // Altura entre 1.50 e 2.00 metros
       peso: faker.randomGenerator.decimal(
         scale: 50,
         min: 50,

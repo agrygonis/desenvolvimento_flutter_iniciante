@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'mock/gerar_pessoa.dart';
-import 'widgets/pessoal_tile.dart';
+import 'widgets/custom_pessoa_tile.dart';
+import 'widgets/pessoa_dialog.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,27 +21,40 @@ class MyApp extends StatelessWidget {
             false, // Desativar o Material 3 para manter o estilo antigo
       ),
       home: Scaffold(
-        appBar: AppBar(title: const Text('Lista Performática')),
+        appBar: AppBar(title: const Text('Lista Customizada')),
         body: const ListaPessoas(),
       ),
     );
   }
 }
 
+// Widget dedicado exclusivamente para carregar a lista na tela
 class ListaPessoas extends StatelessWidget {
   const ListaPessoas({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // 1. Gerar os dados antres de desenhar a tela
+    // 1. Geramos 20 pessoas falsas na memória
     final pessoas = gerarPessoas(20); // Gera 20 pessoas aleatórias
 
-    // 2. Retorna a lista construtora performática
+    // 2. ListView.builder cria a lista com alta performance (renderiza sob demanda)
     return ListView.builder(
       itemCount: pessoas.length, // Diz quantas vezes a lista vai rodar
       itemBuilder: (context, index) {
-        // Para cada item da lista ( de 0 a 19), constrói um Card na tela
-        return PessoaTile(pessoa: pessoas[index]);
+        return CustomPessoaTile(
+          pessoa: pessoas[index], // PAssa a pessoa específica daquela linha
+          // Uma cor azul clara e transparente
+          corFundo: Colors.lightBlueAccent,
+          onTap: () {
+            // 3. Ao clicar no card, mostramos o dialog com os detalhes da pessoa
+            showDialog(
+              context: context, // O context é o mapa do Flutter para saber onde desenhar a tela
+              builder: (context) {
+                return PessoaDialog(pessoa: pessoas[index]);
+              },
+            );
+          },
+        );
       },
     );
   }
